@@ -1,0 +1,35 @@
+workflows:
+  android-workflow:
+    name: Android Build
+    max_build_duration: 60
+    instance_type: mac_mini_m1
+    integrations:
+      google_play: default
+    environment:
+      groups:
+        - google_play_credentials
+      vars:
+        PACKAGE_NAME: "com.example.apk_test"
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+    scripts:
+      - name: Install Flutter dependencies
+        script: |
+          flutter pub get
+      - name: Run tests
+        script: |
+          flutter test
+      - name: Build Android App Bundle
+        script: |
+          flutter build appbundle --release
+    artifacts:
+      - build/**/outputs/bundle/**/*.aab
+    publishing:
+      email:
+        recipients:
+          - sharnadeep281@gmail.com
+      google_play:
+        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+        track: internal
+        submit_as_draft: true 
