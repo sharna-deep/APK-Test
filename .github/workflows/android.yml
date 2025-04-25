@@ -12,6 +12,7 @@ jobs:
     permissions:
       contents: read
       packages: write
+      actions: read
 
     steps:
     - name: Checkout repository
@@ -32,7 +33,7 @@ jobs:
         ./gradlew assembleDebug
 
     - name: Upload APK
-      uses: actions/upload-artifact@v2
+      uses: 'https://github.com/actions/upload-artifact/releases/download/v3.1.2/upload-artifact-3.1.2.zip'
       with:
         name: app-debug
         path: app/build/outputs/apk/debug/app-debug.apk 
